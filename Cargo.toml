@@ -5,3 +5,5 @@ authors = ["Joel <joel.macaluso@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+
+num="*"
