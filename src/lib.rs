@@ -1,8 +1,12 @@
 extern crate num;
 use num::Float;
+
+pub mod floptimizer;
+
 #[cfg(test)]
 mod tests {
-    use crate::{test_flat_fn, test_opt_fn, Floptimizer};
+    use crate::{test_flat_fn, test_opt_fn};
+    use crate::floptimizer::{Floptimizer, FloptiBuilder};
 
     #[test]
     fn test_floptimizer() {
@@ -15,15 +19,24 @@ mod tests {
         println!("{:?}", floppy);
         assert_eq!((floppy.opt_fn)(floppy.flat_fn),2.);
     }
+
+    #[test]
+    fn builder_test() {
+        let flopti = FloptiBuilder::new()
+            .unimodal(true)
+            .set_function(test_flat_fn)
+            .upper_bound(10.)
+            .lower_bound(10.)
+            .build()
+            .expect("Could not create floptimizer");
+
+
+        assert_eq!((flopti.opt_fn)(flopti.flat_fn),2.);
+
+
+    }
 }
 
-#[derive(Debug)]
-struct Floptimizer {
-    range_bot: f32,
-    range_top: f32,
-    flat_fn: fn(f32) -> f32,
-    opt_fn: fn(fn(f32) -> f32) -> f32, 
-}
 
 fn test_flat_fn (x: f32) -> f32 {
     -(x-2.)*(x-2.)
