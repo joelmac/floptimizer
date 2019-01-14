@@ -29,11 +29,18 @@ mod tests {
             .lower_bound(10.)
             .build()
             .expect("Could not create floptimizer");
-
-
         assert_eq!((flopti.opt_fn)(flopti.flat_fn),2.);
+    }
 
-
+    #[test]
+    #[should_panic]
+    fn non_unimodal_test() {
+        let flopti = FloptiBuilder::new()
+            .set_function(test_flat_fn)
+            .upper_bound(10.)
+            .lower_bound(10.)
+            .build()
+            .expect("Could not create floptimizer");
     }
 }
 

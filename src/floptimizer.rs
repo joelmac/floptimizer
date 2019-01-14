@@ -84,6 +84,7 @@ impl FloptiBuilder {
     pub fn build(&self) -> Result<Floptimizer,String> {
         let opt_fn = match self.unimodal {
             false => {
+                return Err("Sorry but only unimodal functions are supported at this time. Please mark the function as unimodal by using the builder method .unimodal(true)".to_string());
                 empty_search_func
             }
             true => {
